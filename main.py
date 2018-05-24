@@ -52,4 +52,4 @@ def write_lines_to_stdin(text=None, path_to_file=None, starting_pause=5, pause_b
     return 0
 
 if __name__ == "__main__":
-    write_lines_to_stdin(None, 'C:/Users/Maxi/Desktop/eloah.txt')
+    write_lines_to_stdin(None, 'C:/file.txt')
