@@ -28,7 +28,7 @@ def write_string_to_stdin(text=None, typing_timeout=0.05):
 function writing multiple lines of text into the stdin, either from a supplied text or a file
 possible arguments:
     text: a string of text
-    path_to_file: a string as system path
+    path_to_file: the path to a text file, as string
     starting_pause: the timeout on initial start of the program in seconds
     pause_between_lines: the timeout between each written line in the input in seconds
     typing_timeout: the timeout between each keystroke in seconds """
@@ -36,20 +36,23 @@ def write_lines_to_stdin(text=None, path_to_file=None, starting_pause=5, pause_b
     # splitting the text if text is given
     if text:
         all_lines = text.splitlines()
-    # opening the text file if a file is given
+    # opening the text file if a path is given
     elif path_to_file:
-        with open(path_to_file, encoding='utf-8') as f:
-            all_lines = f.read().splitlines()
+        try:
+            with open(path_to_file, encoding='utf-8') as f:
+                all_lines = f.read().splitlines()
+        except FileNotFoundError:
+            raise FileNotFoundError('Wrong file or path')
+    
     # if the required arguments are missing the error code is returned
     else:
-        return -1
-
+        raise ValueError('The supplied parameters have to include either a string or the path to a textfile')
+    
     sleep(starting_pause)
     # writing each line
     for line in all_lines:
         write_string_to_stdin(line, typing_timeout)
         sleep(pause_between_lines)
-    return 0
 
 if __name__ == "__main__":
-    write_lines_to_stdin(None, 'C:/file.txt')
+    write_lines_to_stdin(path_to_file='C:/file.txt')
